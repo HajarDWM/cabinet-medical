@@ -39,4 +39,5 @@ public class Consultation {
     @OneToOne(mappedBy = "consultation")
     private Prescription prescription;
 
+
 }

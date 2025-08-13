@@ -3,9 +3,9 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.demo.DTO.AppointmentCreateDTO;
-import com.example.demo.DTO.AppointmentDTO;
-import com.example.demo.DTO.AppointmentUpdateDTO;
+import com.example.demo.DTO.Appointment.AppointmentCreateDTO;
+import com.example.demo.DTO.Appointment.AppointmentDTO;
+import com.example.demo.DTO.Appointment.AppointmentUpdateDTO;
 import com.example.demo.Entity.Patient;
 import com.example.demo.Repository.AppointmentRepository;
 

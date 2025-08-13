@@ -2,6 +2,9 @@ package com.example.demo.Controller;
 
 import java.util.List;
 
+import com.example.demo.DTO.Consultation.ConsultationCreateDTO;
+import com.example.demo.DTO.Consultation.ConsultationDTO;
+import com.example.demo.DTO.Consultation.ConsultationUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,9 +28,7 @@ public class ConsultationController {
 	 private ConsultationService consultationService;
 
 	 @GetMapping
-	    public List<Consultation> getAll() {
-	        return consultationService.getAll();
-	    }
+	 public List<ConsultationDTO> getAllDTO() { return consultationService.getAllDTO(); }
 
 	    @GetMapping("/{id}")
 	    public ResponseEntity<Consultation> getById(@PathVariable Long id) {
@@ -36,16 +37,16 @@ public class ConsultationController {
 	            .orElse(ResponseEntity.notFound().build());
 	    }
 
-	    @PostMapping
-	    public Consultation create(@Valid @RequestBody Consultation consultation) {
-	        return consultationService.save(consultation);
-	    }
+	@PostMapping
+	public ResponseEntity<ConsultationDTO> create(@Valid @RequestBody ConsultationCreateDTO dto) {
+		return ResponseEntity.ok(consultationService.create(dto));
+	}
 
-	    @PutMapping("/{id}")
-	    public ResponseEntity<Consultation> update(@PathVariable Long id,@Valid @RequestBody Consultation updated) {
-	        updated.setIdConsul(id);
-	        return ResponseEntity.ok(consultationService.save(updated));
-	    }
+	@PutMapping("/{id}")
+	public ResponseEntity<ConsultationDTO> update(@PathVariable Long id,
+												  @Valid @RequestBody ConsultationUpdateDTO dto) {
+		return ResponseEntity.ok(consultationService.update(id, dto));
+	}
 
 	    @DeleteMapping("/{id}")
 	    public void delete(@PathVariable Long id) {
