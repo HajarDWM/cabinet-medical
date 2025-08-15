@@ -1,4 +1,4 @@
-package com.example.demo.DTO.Appointment;
+package com.example.demo.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

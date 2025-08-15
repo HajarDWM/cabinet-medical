@@ -3,9 +3,9 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.demo.DTO.Consultation.ConsultationCreateDTO;
-import com.example.demo.DTO.Consultation.ConsultationDTO;
-import com.example.demo.DTO.Consultation.ConsultationUpdateDTO;
+import com.example.demo.DTO.ConsultationCreateDTO;
+import com.example.demo.DTO.ConsultationDTO;
+import com.example.demo.DTO.ConsultationUpdateDTO;
 
 import com.example.demo.Entity.Patient;
 

@@ -2,6 +2,8 @@ package com.example.demo.Controller;
 
 import java.util.List;
 
+import com.example.demo.DTO.MedicalRecordCreateDTO;
+import com.example.demo.DTO.MedicalRecordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Entity.MedicalRecord;
 import com.example.demo.service.MedicalRecordService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 
 @RestController
@@ -26,8 +28,8 @@ public class MedicalRecordController {
     private MedicalRecordService medicalRecordService;
 
     @GetMapping
-    public List<MedicalRecord> getAll() {
-        return medicalRecordService.getAll();
+    public List<MedicalRecordDTO> getAllDTO() {
+        return medicalRecordService.getAllDTO();
     }
 
     @GetMapping("/{id}")
@@ -38,15 +40,18 @@ public class MedicalRecordController {
     }
 
     @PostMapping
-    public MedicalRecord create(@Valid @RequestBody MedicalRecord record) {
-        return medicalRecordService.save(record);
+    public ResponseEntity<MedicalRecordDTO> create(
+            @Valid @RequestBody MedicalRecordCreateDTO dto) {
+        return ResponseEntity.ok(medicalRecordService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MedicalRecord> update(@PathVariable Long id,@Valid @RequestBody MedicalRecord updated) {
-        updated.setIdMedical(id);
-        return ResponseEntity.ok(medicalRecordService.save(updated));
+    public ResponseEntity<MedicalRecordDTO> update(
+            @PathVariable Long id,
+            @Valid @RequestBody MedicalRecordCreateDTO dto) {
+        return ResponseEntity.ok(medicalRecordService.update(id, dto));
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

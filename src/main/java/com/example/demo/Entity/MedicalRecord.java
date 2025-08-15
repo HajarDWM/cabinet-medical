@@ -4,11 +4,7 @@ import java.time.LocalDate;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -19,11 +15,12 @@ public class MedicalRecord {
 	
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private long idMedical;
-	    @NotNull
-	    private LocalDate creationDate;
+	    private Long idMedical;
+
 	    @NotBlank
 	    private String allergies;
+	    @NotNull
+	    private LocalDate creationDate;
 	    @NotBlank
 	    private String chronicDiseases;
 	    @NotBlank
@@ -31,7 +28,7 @@ public class MedicalRecord {
 	    @NotBlank
 	    private String notes;
 
-	    @ManyToOne ()
+	    @OneToOne(optional = false)
 		@JsonIgnore
 	    private Patient patient;
 

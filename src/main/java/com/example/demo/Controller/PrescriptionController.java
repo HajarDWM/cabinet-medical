@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import java.util.List;
 
+import com.example.demo.DTO.PrescriptionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,26 +28,28 @@ public class PrescriptionController {
 
 
 	@GetMapping
-    public List<Prescription> getAll() {
-        return prescriptionService.getAll();
+    public List<PrescriptionDTO> getAllDTO() {
+        return prescriptionService.getAllDTO();
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Prescription> getById(@PathVariable Long id) {
+    public ResponseEntity<PrescriptionDTO> getById(@PathVariable Long id) {
         return prescriptionService.getById(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Prescription create(@Valid @RequestBody Prescription prescription) {
-        return prescriptionService.save(prescription);
+    public ResponseEntity<PrescriptionDTO> create(@Valid @RequestBody PrescriptionDTO dto) {
+
+        return ResponseEntity.ok(prescriptionService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Prescription> update(@PathVariable Long id,@Valid @RequestBody Prescription updated) {
-        updated.setIdPerscription(id);
-        return ResponseEntity.ok(prescriptionService.save(updated));
+    public ResponseEntity<PrescriptionDTO> update(@PathVariable Long id,
+                                                     @Valid @RequestBody PrescriptionDTO dto) {
+        return ResponseEntity.ok(prescriptionService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")

@@ -2,9 +2,9 @@ package com.example.demo.Controller;
 
 import java.util.List;
 
-import com.example.demo.DTO.Consultation.ConsultationCreateDTO;
-import com.example.demo.DTO.Consultation.ConsultationDTO;
-import com.example.demo.DTO.Consultation.ConsultationUpdateDTO;
+import com.example.demo.DTO.ConsultationCreateDTO;
+import com.example.demo.DTO.ConsultationDTO;
+import com.example.demo.DTO.ConsultationUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
