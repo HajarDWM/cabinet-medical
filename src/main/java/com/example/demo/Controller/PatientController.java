@@ -32,7 +32,7 @@ public class PatientController {
 
 
 
-	@GetMapping("/dto")
+	@GetMapping()
 	public List<PatientDTO> getPatientsDTO() {
 		return patientService.getAllPatientsDTO();
 	}
