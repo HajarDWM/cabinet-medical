@@ -42,4 +42,23 @@ public class PatientService {
 		
 		return patientRepository.findByFullNameContainingIgnoreCase(name);
 	}
+
+	public Patient update(Long id, Patient newData) {
+		return patientRepository.findById(id)
+				.map(existing -> {
+					existing.setFullName(newData.getFullName());
+					existing.setBirthDate(newData.getBirthDate());
+					existing.setPhone(newData.getPhone());
+					existing.setAddress(newData.getAddress());
+					existing.setMaritalStatus(newData.getMaritalStatus());
+					existing.setBloodType(newData.getBloodType());
+					existing.setNotes(newData.getNotes());
+					return patientRepository.save(existing);
+				})
+				.orElseThrow(() -> new RuntimeException("Patient not found with id " + id));
+	}
+
+
+
 }
+

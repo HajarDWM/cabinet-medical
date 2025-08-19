@@ -48,21 +48,24 @@ public class PatientController {
 	 public Patient create(@Valid @RequestBody Patient patient) {
 		 return patientService.save(patient);
 	 }
-	 
-	 @PutMapping("/{id}")
-	 public ResponseEntity<Patient> update(@PathVariable("id") Long id,@Valid @RequestBody Patient updated) {
-	     if (updated == null) {
-	         return ResponseEntity.badRequest().build(); // ✅ حماية من null
-	     }
 
-	     return patientService.getById(id).map(existing -> {
-	         updated.setIdPatient(id);
-	         return ResponseEntity.ok(patientService.save(updated));
-	     }).orElse(ResponseEntity.notFound().build());
-	 }
+	@PutMapping("/{id}")
+	public ResponseEntity<Patient> update(@PathVariable("id") Long id,@Valid @RequestBody Patient updated) {
+		if (updated == null) {
+			return ResponseEntity.badRequest().build(); // ✅ حماية من null
+		}
 
-	 
-	 @DeleteMapping("/{id}")
+		return patientService.getById(id).map(existing -> {
+			updated.setIdPatient(id);
+			return ResponseEntity.ok(patientService.save(updated));
+		}).orElse(ResponseEntity.notFound().build());
+	}
+
+
+
+
+
+	@DeleteMapping("/{id}")
 	    public void delete(@PathVariable Long id) {
 	        patientService.delete(id);
 	    }
