@@ -7,6 +7,8 @@ import com.example.demo.DTO.AppointmentDTO;
 import com.example.demo.DTO.AppointmentUpdateDTO;
 import com.example.demo.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.example.demo.Entity.Appointment;
 
@@ -37,6 +40,12 @@ public class AppointmentController {
         return appointmentService.getAllDTO();
     }
 
+//paged version ⬇️
+    @GetMapping("/paged")
+    public Page<AppointmentDTO> getAllDTOPaged(Pageable pageable) {
+        return appointmentService.getAllDTOPaged(pageable);
+    }
+// ⬇️ واحد بالـID
     @GetMapping("/{id}")
     public ResponseEntity<Appointment> getById(@PathVariable Long id) {
         return appointmentService.getById(id)

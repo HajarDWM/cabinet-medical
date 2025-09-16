@@ -6,6 +6,8 @@ import com.example.demo.DTO.ConsultationCreateDTO;
 import com.example.demo.DTO.ConsultationDTO;
 import com.example.demo.DTO.ConsultationUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +39,13 @@ public class ConsultationController {
 	            .orElse(ResponseEntity.notFound().build());
 	    }
 
+///pagination
+	@GetMapping("/paged")
+	public Page<ConsultationDTO> getAllDTOPaged(Pageable pageable) {
+		return consultationService.getAllDTOPaged(pageable);
+	}
+
+	/// Create a new consultation
 	@PostMapping
 	public ResponseEntity<ConsultationDTO> create(@Valid @RequestBody ConsultationCreateDTO dto) {
 		return ResponseEntity.ok(consultationService.create(dto));

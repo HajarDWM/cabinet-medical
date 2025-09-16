@@ -11,6 +11,8 @@ import com.example.demo.Entity.Patient;
 
 import com.example.demo.Repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Entity.Consultation;
@@ -82,4 +84,9 @@ public class ConsultationService {
 		 return consultationRepository.findByPatient_IdPatient(idPatient);
 	 }
 
+
+//pagination
+	public Page<ConsultationDTO> getAllDTOPaged(Pageable pageable) {
+		return consultationRepository.findAllAsDTOPaged(pageable);
+	}
 }
