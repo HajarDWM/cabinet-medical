@@ -4,12 +4,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -28,13 +24,12 @@ public class Appointment {
 	 private LocalDateTime dateTime;
 	 @NotBlank
 	 private String reason;
-	 
-	 
-	 @ManyToOne
-	 @JoinColumn(name = "patient_id")
-	 @JsonIgnore
-	 private Patient patient;
-	 
+
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "patient_id", referencedColumnName = "idPatient", nullable = true)
+	@JsonIgnoreProperties({"appointments"}) // إلى كانت العلاقة راجعة من Patient→appointments
+	private Patient patient;
 	
 
 }
