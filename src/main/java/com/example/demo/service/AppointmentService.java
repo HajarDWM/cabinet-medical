@@ -17,7 +17,7 @@ import com.example.demo.Entity.Appointment;
 
 @Service
 
-public class AppoitmentService {
+public class AppointmentService {
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;
@@ -25,14 +25,17 @@ public class AppoitmentService {
 	private PatientRepository patientRepository;
 
 	private AppointmentDTO toDTO(Appointment a) {
-		return new AppointmentDTO(a.getIdAppoint(), a.getDateTime(), a.getReason());
+		Patient p = a.getPatient();
+		Long patientId = (p != null) ? p.getIdPatient() : null;
+		String fullName = (p != null) ? p.getFullName() : null;
+		return new AppointmentDTO(a.getIdAppoint(), patientId, fullName, a.getDateTime(), a.getReason());
 	}
 
 
 	public List<AppointmentDTO> getAllDTO(){
 		return appointmentRepository.findAllAsDTO();
 	}
-	
+
 	public Optional<Appointment> getById(Long id){
 		return appointmentRepository.findById(id);
 	}
@@ -71,8 +74,10 @@ public class AppoitmentService {
 	public void delete(Long id) {
 		appointmentRepository.deleteById(id);
 	}
-	
-	public List<Appointment> getByPatientId(Long idPatient) {
-        return appointmentRepository.findByPatient_IdPatient(idPatient);
-    }
+
+
+	// Use the DTO method from repository
+	public List<AppointmentDTO> getByPatientId(Long idPatient) {
+		return appointmentRepository.findAllDTOByPatientId(idPatient);
+	}
 }
