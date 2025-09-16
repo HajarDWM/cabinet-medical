@@ -24,8 +24,7 @@ public class Prescription {
 	    private String duration;
 	    @NotBlank
 	    private String notes;
-	    
-	  
+
 	    
 	    @OneToOne
 	    @JoinColumn(name = "consultation_id")

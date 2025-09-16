@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import com.example.demo.DTO.PatientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +34,7 @@ public class PatientController {
 	private PatientService patientService;
 
 
+   //// hadi end point li katjib jami3 les patients b dto li 3ad sawebtiha Get /api/patients
 
 	@GetMapping()
 	public List<PatientDTO> getPatientsDTO() {
@@ -43,6 +47,20 @@ public class PatientController {
 	            .map(ResponseEntity::ok)
 	            .orElse(ResponseEntity.notFound().build());
 	    }
+
+		/// / hadi end point li katjib les patients b pagination li 3ad sawebtiha  Get /api/patients/paged
+		/// fiha parametre dyal page w size li homa optional ila ma 3titiwhomch kayakhod default values
+		/// page default 0 w size default 10
+		/// exemple: /api/patients/paged?page=1&size=5
+		/// hadi katjib page 1 w size 5 yani katjib 5 patients
+	@GetMapping("/paged")
+	public Page<PatientDTO> getPatientsPaged(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size
+	) {
+		Pageable pageable = PageRequest.of(page, size);
+		return patientService.getPatientsDTOPage(pageable);
+	}
 	 
 	 @PostMapping
 	 public Patient create(@Valid @RequestBody Patient patient) {
@@ -69,9 +87,11 @@ public class PatientController {
 	    public void delete(@PathVariable Long id) {
 	        patientService.delete(id);
 	    }
-	 
+
+
+
 	 @GetMapping("/search")
-	    public List<Patient> search(@RequestParam String name) {
+	    public List<Patient> searchByName(@RequestParam String name) {
 	        return patientService.searchByName(name);
 	    }
 }
