@@ -50,6 +50,9 @@ public class AppointmentService {
 
 	// CREATE from DTO
 	public AppointmentDTO create(AppointmentCreateDTO dto) {
+		if (dto.getPatientId() == null) {
+			throw new IllegalArgumentException("Patient ID must not be null");
+		}
 		Appointment a = new Appointment();
 		a.setDateTime(dto.getDateTime());
 		a.setReason(dto.getReason());
@@ -88,4 +91,15 @@ public class AppointmentService {
 	public List<AppointmentDTO> getByPatientId(Long idPatient) {
 		return appointmentRepository.findAllDTOByPatientId(idPatient);
 	}
+
+	public Page<AppointmentDTO> getAppointmentsPaged(int page, int size) {
+		return appointmentRepository.findAppointmentsPaged(page, size);
+	}
+
+	//واحد بالـID
+	public Optional<AppointmentDTO> getDTOById(Long id) {
+		return appointmentRepository.findById(id).map(this::toDTO);
+	}
+
+
 }

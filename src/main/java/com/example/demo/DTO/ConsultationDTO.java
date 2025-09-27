@@ -9,16 +9,34 @@ public class ConsultationDTO {
     private String diagnosis;
     private String notes;
 
+    private Long patientId; // For patient's ID
+    private String fullName; // For patient's full name
+
 
     public ConsultationDTO() {
     }
 
-    public ConsultationDTO(Long idConsul, LocalDate date, String symptoms, String diagnosis, String notes) {
+    // Add this new constructor for the JPQL query
+    public ConsultationDTO(Long idConsul, LocalDate date, String symptoms, String diagnosis, String notes,
+                           Long patientId, String fullName) {
         this.idConsul = idConsul;
         this.date = date;
         this.symptoms = symptoms;
         this.diagnosis = diagnosis;
         this.notes = notes;
+        this.patientId = patientId;
+        this.fullName = fullName;
+    }
+
+    public ConsultationDTO(Long idConsul, LocalDate date, String symptoms, String diagnosis, String notes,
+                           Long patientId, String medication, String fullName) {
+        this.idConsul = idConsul;
+        this.date = date;
+        this.symptoms = symptoms;
+        this.diagnosis = diagnosis;
+        this.notes = notes;
+        this.patientId = patientId;
+        this.fullName = fullName;
     }
 
 
@@ -60,5 +78,25 @@ public class ConsultationDTO {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+
+
+  
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

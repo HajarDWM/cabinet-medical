@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.Entity.Consultation;
 import com.example.demo.Repository.ConsultationRepository;
@@ -30,10 +31,20 @@ public class ConsultationService {
 	public List<ConsultationDTO> getAllDTO(){ return consultationRepository.findAllAsDTO(); }
 	
 	 public Optional<Consultation> getById(Long id) {
+	        if (id == null) {
+	            throw new IllegalArgumentException("Consultation ID must not be null");
+	        }
 	        return consultationRepository.findById(id);
     }
 
+    @Transactional
 	public ConsultationDTO create(ConsultationCreateDTO dto) {
+        if (dto.getDate() == null) {
+            throw new IllegalArgumentException("Consultation date must not be null");
+        }
+        if (dto.getPatientId() == null) {
+            throw new IllegalArgumentException("Patient ID must not be null");
+        }
 		Consultation c = new Consultation();
 		c.setDate(dto.getDate());
 		c.setSymptoms(dto.getSymptoms());
@@ -48,7 +59,11 @@ public class ConsultationService {
 
 	}
 
+    @Transactional
 	public ConsultationDTO update(Long id, ConsultationUpdateDTO dto) {
+        if (id == null) {
+            throw new IllegalArgumentException("Consultation ID must not be null");
+        }
 		Consultation c = consultationRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Consultation not found"));
 
@@ -66,8 +81,11 @@ public class ConsultationService {
 
 		}
 
-	 
+    @Transactional
 	 public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Consultation ID must not be null");
+        }
 		 consultationRepository.deleteById(id);
 	 }
 	// ✅ ميثود التحويل إلى DTO
@@ -77,10 +95,14 @@ public class ConsultationService {
 				c.getDate(),
 				c.getSymptoms(),
 				c.getDiagnosis(),
-				c.getNotes()
+				c.getNotes(),
+				(c.getPatient() != null) ? c.getPatient().getIdPatient() : null,
+				(c.getPrescription() != null) ? c.getPrescription().getMedication() : null,
+				(c.getPatient() != null) ? c.getPatient().getFullName() : null
 		);
 	}
-	 public List<Consultation> getByIdPatient(Long idPatient){
+
+	public List<Consultation> getByIdPatient(Long idPatient){
 		 return consultationRepository.findByPatient_IdPatient(idPatient);
 	 }
 

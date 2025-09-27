@@ -8,6 +8,8 @@ import com.example.demo.Entity.Consultation;
 import com.example.demo.Repository.ConsultationRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Entity.Prescription;
@@ -31,7 +33,8 @@ public class PrescriptionService {
 				p.getDosage(),
 				p.getDuration(),
 				p.getNotes(),
-				consultationId
+				consultationId,
+				(p.getConsultation() != null) ? p.getConsultation().getDate() : null
 		);
 	}
 
@@ -89,5 +92,11 @@ public class PrescriptionService {
 	public Optional<PrescriptionDTO> getByConsultationId(Long idConsul) {
 		return prescriptionRepository.findByConsultation_IdConsul(idConsul)
 				.map(this::toDTO);
+	}
+
+
+/// paged version
+	public Page<PrescriptionDTO> getAllDTOPaged(Pageable pageable) {
+		return prescriptionRepository.findAllAsDTOPaged(pageable);
 	}
 }

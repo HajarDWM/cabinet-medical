@@ -1,12 +1,14 @@
 package com.example.demo.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
 
 public class AppointmentUpdateDTO {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm[:ss]")
     private LocalDateTime dateTime;
+    @Pattern(regexp = "Consultation|Analyses|Control")
     private String reason;
     private Long patientId;
 

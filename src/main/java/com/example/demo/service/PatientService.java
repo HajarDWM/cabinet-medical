@@ -8,7 +8,9 @@ import com.example.demo.DTO.PatientDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Entity.Patient;
@@ -79,10 +81,11 @@ public class PatientService {
 		out.setNotes(saved.getNotes());
 		return out;
 	}
-
-	public Page<PatientDTO> getPatientsDTOPage(Pageable pageable) {
-		return patientRepository.findAllPatientsDTO(pageable);
-	}
+/// pagination
+public Page<PatientDTO> getPatientsDTOPage(int page, int size) {
+	Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "idPatient"));
+	return patientRepository.findAllPatientsDTO(pageable);
+}
 
 }
 

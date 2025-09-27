@@ -9,11 +9,15 @@ import com.example.demo.Entity.Patient;
 import com.example.demo.Repository.PatientRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Entity.MedicalRecord;
 import com.example.demo.Repository.MedicalRecordRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class MedicalRecordService {
@@ -98,11 +102,16 @@ public List<MedicalRecordDTO> getAllDTO() {
                 m.getCreationDate(),
                 m.getChronicDiseases(),
                 m.getSurgeries(),
-                m.getNotes()
+                m.getNotes(),
+                m.getPatient() != null ? m.getPatient().getFullName() : null
         );
     }
     public List<MedicalRecord> getByPatientId(Long idPatient) {
         return medicalRecordRepository.findByPatient_IdPatient(idPatient);
+    }
+
+   public Page<MedicalRecordDTO> getAllDTOPaged(Pageable pageable) {
+        return medicalRecordRepository.findAllAsDTOPaged(pageable);
     }
 
 }

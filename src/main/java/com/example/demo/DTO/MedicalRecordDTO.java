@@ -10,17 +10,20 @@ public class MedicalRecordDTO {
  private String surgeries;
  private String notes;
 
+ private String fullName; // New field for patient's full name
+
  public MedicalRecordDTO() {
  }
 
  public MedicalRecordDTO(Long idMedical, String allergies, LocalDate creationDate,
-                         String chronicDiseases, String surgeries, String notes) {
+                         String chronicDiseases, String surgeries, String notes , String fullName) {
   this.idMedical = idMedical;
   this.allergies = allergies;
   this.creationDate = creationDate;
   this.chronicDiseases = chronicDiseases;
   this.surgeries = surgeries;
   this.notes = notes;
+    this.fullName = fullName;
  }
 
  public long getIdMedical() {
@@ -70,4 +73,12 @@ public class MedicalRecordDTO {
  public void setNotes(String notes) {
   this.notes = notes;
  }
+
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
 }

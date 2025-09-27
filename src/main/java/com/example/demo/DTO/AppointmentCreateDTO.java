@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class AppointmentCreateDTO {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm[:ss]")
     private LocalDateTime dateTime;
     private String reason;
     private Long patientId;

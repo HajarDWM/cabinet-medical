@@ -14,12 +14,22 @@ import com.example.demo.Entity.Consultation;
 public interface ConsultationRepository extends JpaRepository<Consultation, Long>{
 	
 	 List<Consultation> findByPatient_IdPatient(Long idPatient);
-	@Query("select new com.example.demo.DTO.ConsultationDTO(c.idConsul, c.date,c.symptoms,c.diagnosis,c.notes) from Consultation c")
-	 List<ConsultationDTO> findAllAsDTO();
+	@Query("select new com.example.demo.DTO.ConsultationDTO(" +
+			"c.idConsul, c.date, c.symptoms, c.diagnosis, c.notes, " +
+			"c.patient.idPatient, c.patient.fullName) " +
+			"from Consultation c")
+	List<ConsultationDTO> findAllAsDTO();
 
 
-	@Query("select new com.example.demo.DTO.ConsultationDTO(c.idConsul, c.date, c.symptoms, c.diagnosis, c.notes) from Consultation c")
+
+	@Query("select new com.example.demo.DTO.ConsultationDTO(" +
+			"c.idConsul, c.date, c.symptoms, c.diagnosis, c.notes, " +
+			"c.patient.idPatient, c.patient.fullName) " +
+			"from Consultation c")
 	Page<ConsultationDTO> findAllAsDTOPaged(Pageable pageable);
+
+
+
 
 
 }

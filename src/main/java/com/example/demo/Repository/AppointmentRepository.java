@@ -2,8 +2,17 @@ package com.example.demo.Repository;
 
 import com.example.demo.DTO.AppointmentDTO;
 import com.example.demo.Entity.Appointment;
+import org.springframework.data.domain.Page;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+
 
 import java.util.List;
 import java.util.Optional;
@@ -80,23 +89,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     """)
 	List<AppointmentDTO> searchDTO(String q);
 
-	// لائحة كاملة (مرتبة زمنيًا) مع الترقيم
-	@Query("""
-      SELECT new com.example.demo.DTO.AppointmentDTO(
-        a.idAppoint,
-        p.idPatient,
-        CASE
-          WHEN p IS NOT NULL AND p.fullName IS NOT NULL AND p.fullName <> '' THEN p.fullName
-          ELSE CONCAT('Patient #', str(p.idPatient))
-        END,
-        a.dateTime,
-        a.reason
-      )
-      FROM Appointment a
-      LEFT JOIN a.patient p
-      ORDER BY a.dateTime DESC
-    """)
-	org.springframework.data.domain.Page<AppointmentDTO> findAllAsDTOPaged(org.springframework.data.domain.Pageable pageable);
 
 	// بحث (بالاسم أو السبب) مع الترقيم
 	@Query("""
@@ -116,4 +108,31 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
       ORDER BY a.dateTime DESC
     """)
 	org.springframework.data.domain.Page<AppointmentDTO> searchDTOPaged(String q, org.springframework.data.domain.Pageable pageable);
+
+
+
+
+	@Query("""
+        SELECT new com.example.demo.DTO.AppointmentDTO(
+            a.idAppoint,
+            p.idPatient,
+            CASE
+                WHEN p IS NOT NULL AND p.fullName IS NOT NULL AND p.fullName <> '' THEN p.fullName
+                ELSE CONCAT('Patient #', str(p.idPatient))
+            END,
+            a.dateTime,
+            a.reason
+        )
+        FROM Appointment a
+        LEFT JOIN a.patient p
+        ORDER BY a.dateTime DESC
+    """)
+	Page<AppointmentDTO> findAllAsDTOPaged(Pageable pageable);
+
+	default Page<AppointmentDTO> findAppointmentsPaged(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "idAppoint"));
+		return findAllAsDTOPaged(pageable);
+	}
+
+
 }

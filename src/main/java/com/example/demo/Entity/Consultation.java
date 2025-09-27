@@ -24,7 +24,8 @@ public class Consultation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idConsul;
 	@NotNull
-    private LocalDate date;
+
+
 	@NotBlank
     private String symptoms;
 	@NotBlank
@@ -39,5 +40,13 @@ public class Consultation {
     @OneToOne(mappedBy = "consultation")
     private Prescription prescription;
 
+    private LocalDate date;
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 }

@@ -14,11 +14,20 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Lo
 	
 	List<MedicalRecord> findByPatient_IdPatient(Long idPatient);
 	@Query("""
-    SELECT new com.example.demo.DTO.MedicalRecordDTO( m.idMedical, m.allergies, m.creationDate, m.chronicDiseases, m.surgeries, m.notes  ) FROM MedicalRecord m
+    SELECT new com.example.demo.DTO.MedicalRecordDTO(
+        m.idMedical, m.allergies, m.creationDate, m.chronicDiseases, m.surgeries, m.notes, m.patient.fullName
+    ) FROM MedicalRecord m
 """)
 	List<MedicalRecordDTO> findAllAsDTO();
 	boolean existsByPatient_IdPatient(Long idPatient);
 
+
+	@Query("""
+    SELECT new com.example.demo.DTO.MedicalRecordDTO(
+        m.idMedical, m.allergies, m.creationDate, m.chronicDiseases, m.surgeries, m.notes, m.patient.fullName
+    ) FROM MedicalRecord m
+""")
+	org.springframework.data.domain.Page<MedicalRecordDTO> findAllAsDTOPaged(org.springframework.data.domain.Pageable pageable);
 
 
 }

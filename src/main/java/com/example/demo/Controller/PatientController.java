@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.DTO.PatientDTO;
+import com.example.demo.Repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.demo.DTO.PatientLiteDTO;
 import com.example.demo.Entity.Patient;
 import com.example.demo.service.PatientService;
 
@@ -32,9 +33,12 @@ public class PatientController {
 	
 	@Autowired
 	private PatientService patientService;
+	@Autowired
+	private PatientRepository patientRepository;
 
 
-   //// hadi end point li katjib jami3 les patients b dto li 3ad sawebtiha Get /api/patients
+
+	//// hadi end point li katjib jami3 les patients b dto li 3ad sawebtiha Get /api/patients
 
 	@GetMapping()
 	public List<PatientDTO> getPatientsDTO() {
@@ -59,7 +63,7 @@ public class PatientController {
 			@RequestParam(defaultValue = "10") int size
 	) {
 		Pageable pageable = PageRequest.of(page, size);
-		return patientService.getPatientsDTOPage(pageable);
+		return patientService.getPatientsDTOPage(page, size);
 	}
 	 
 	 @PostMapping
@@ -90,8 +94,20 @@ public class PatientController {
 
 
 
-	 @GetMapping("/search")
-	    public List<Patient> searchByName(@RequestParam String name) {
-	        return patientService.searchByName(name);
-	    }
+
+	@GetMapping("/search") // hadi end point li kat9lb 3la patient b smiytou w katrja3 list dyal PatientLiteDTO
+	public List<PatientLiteDTO> searchPatients(
+			@RequestParam("q") String q, ///  hada query li ghadi ykoun smiya dyal patient
+			@RequestParam(value = "limit", defaultValue = "10") int limit // had limit li ghadi ykoun 3adad dyal les results li bghiti tjiini
+	) {
+		if (q == null || q.trim().length() < 2) {
+			throw new IllegalArgumentException("Query must be at least 2 characters");
+		}
+		int maxLimit = Math.min(limit, 10);
+		return patientRepository.searchLiteByFullName(q.trim(), PageRequest.of(0, maxLimit));
+	}
+
+
+
+
 }

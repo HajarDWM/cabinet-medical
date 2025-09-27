@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public class ConsultationCreateDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate date;
     private String symptoms;
     private String diagnosis;
